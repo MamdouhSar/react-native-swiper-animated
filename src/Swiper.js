@@ -353,6 +353,7 @@ export default class SwiperAnimated extends PureComponent {
     const total = this.props.children.length;
     if (this.currentIndex[this.guid] < total - 1) {
       this.currentIndex[this.guid] += 1;
+      this.props.onIndexChange(this.currentIndex[this.guid]);
       this.setState({
         card: this.props.children[this.currentIndex[this.guid]],
       });
@@ -364,6 +365,7 @@ export default class SwiperAnimated extends PureComponent {
           card: this.props.children[this.currentIndex[this.guid]],
         });
       } else {
+        this.props.onIndexChange(this.currentIndex[this.guid]);
         this.props.onFinish();
       }
     }
