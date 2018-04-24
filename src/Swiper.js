@@ -84,6 +84,7 @@ export default class SwiperAnimated extends PureComponent {
     dragDownToBack: PropTypes.bool,
     backPressToBack: PropTypes.bool,
     onFirstBackPressed: PropTypes.func,
+    onIndexChange: PropTypes.func,
     showToolbar: PropTypes.bool,
     toolbarLeft: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     toolbarRight: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
@@ -114,6 +115,7 @@ export default class SwiperAnimated extends PureComponent {
     onRightSwipe: () => {},
     onLeftSwipe: () => {},
     onRemoveCard: () => {},
+    onIndexChange: ()=>{},
     renderCard: null,
     style: styles.container,
     dragY: true,
@@ -178,7 +180,6 @@ export default class SwiperAnimated extends PureComponent {
   componentDidMount() {
     this.isComponentMounted = true;
     this.animateEntrance();
-
     if (Platform.OS === 'android' && this.props.backPressToBack) {
       BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
@@ -358,7 +359,7 @@ export default class SwiperAnimated extends PureComponent {
     } else if (this.currentIndex[this.guid] === total - 1) {
       if (this.props.loop) {
         this.currentIndex[this.guid] = 0;
-
+        this.props.onIndexChange(this.currentIndex[this.guid]);
         this.setState({
           card: this.props.children[this.currentIndex[this.guid]],
         });
@@ -366,19 +367,18 @@ export default class SwiperAnimated extends PureComponent {
         this.props.onFinish();
       }
     }
-  }
+  };
 
   goToPrevCard = () => {
     this.currentIndex[this.guid] -= 1;
-
     if (this.currentIndex[this.guid] < 0) {
       this.currentIndex[this.guid] = 0;
     }
-
+    this.props.onIndexChange(this.currentIndex[this.guid]);
     this.setState({
       card: this.props.children[this.currentIndex[this.guid]],
     });
-  }
+  };
 
   animateEntrance = () => {
     Animated.timing(
