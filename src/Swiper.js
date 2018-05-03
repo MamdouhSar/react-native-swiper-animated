@@ -153,8 +153,8 @@ export default class SwiperAnimated extends PureComponent {
     this.valueX = 0;
     this.valueY = 0;
 
-    this.enter = new Animated.Value(0.9);
-    this.textAnim = new Animated.Value(0.8);
+    this.enter = new Animated.Value(1);
+    this.textAnim = new Animated.Value(1);
 
     this.state = {
       card: children[this.currentIndex[this.guid]],
@@ -179,7 +179,7 @@ export default class SwiperAnimated extends PureComponent {
 
   componentDidMount() {
     this.isComponentMounted = true;
-    this.animateEntrance();
+    //this.animateEntrance();
     if (Platform.OS === 'android' && this.props.backPressToBack) {
       BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
@@ -323,7 +323,7 @@ export default class SwiperAnimated extends PureComponent {
       }
     } else if (isNext) this.goToNextCard();
     else this.goToPrevCard();
-  }
+  };
 
   advanceState = (velocityX, vy, isNext, accumulatedX, velocityY) => {
     const { smoothTransition, stack } = this.props;
@@ -406,8 +406,8 @@ export default class SwiperAnimated extends PureComponent {
 
     this.pan.setValue({ x: 0, y: 0 });
     this.enter.setValue(stack || smoothTransition ? 0.985 : 0.97);
-    this.textAnim.setValue(0.8);
-    this.animateEntrance();
+    this.textAnim.setValue(1);
+    //this.animateEntrance();
   }
 
   forceLeftSwipe = () => {
